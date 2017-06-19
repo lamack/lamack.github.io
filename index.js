@@ -1,4 +1,4 @@
-$.function(){
+$(window).load(function(){
 	var startX,startY;
 	$(window).on('mousedown',function(e){
 		e.preventDefault();
@@ -18,4 +18,4 @@ $.function(){
 		$(window).off('mousemove')
 		var tran = $('.wrapper').get(0).style.transform;
 	})
-}
+})
