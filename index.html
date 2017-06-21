@@ -28,6 +28,11 @@ ga('send', {
    <a href="http://www.baidu.com">我是百度跳转</a>
    <a href="http://www.google.com">我是谷歌跳转</a>
    <div class="xxx" style="color:#fff;">我是点击事件</div>
+      <div>
+         <img src="a2.jpg" class="aaa1" style="width:160px;height:160px;">
+         <img src="a3.jpg" class="aaa2" style="width:160px;height:160px;">
+         <img src="a4.jpg" class="aaa3" style="width:160px;height:160px;">
+      </div>
    <div class="wrapper">
    	   <div class="box1 box"><img src="me.jpeg"></div>
    	   <div class="box2 box"><img src="a2.jpg"></div>
@@ -45,6 +50,33 @@ ga('send', {
           ga('send', {
            hitType: 'event',
            eventCategory: 'fasdfsad',
+           eventAction: 'play',
+           eventLabel: 'fasdfasdfsad'
+         });
+      })
+       $('.aaa1').click(function(){
+          alert('小色狼。。。')
+          ga('send', {
+           hitType: 'event',
+           eventCategory: '小色狼。。。',
+           eventAction: 'play',
+           eventLabel: 'fasdfasdfsad'
+         });
+      })
+       $('.aaa2').click(function(){
+          alert('大色狼。。。')
+          ga('send', {
+           hitType: 'event',
+           eventCategory: '大色狼。。。',
+           eventAction: 'play',
+           eventLabel: 'fasdfasdfsad'
+         });
+      })
+       $('.aaa3').click(function(){
+          alert('老色狼。。。')
+          ga('send', {
+           hitType: 'event',
+           eventCategory: '老色狼。。。   ',
            eventAction: 'play',
            eventLabel: 'fasdfasdfsad'
          });
