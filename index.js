@@ -49,6 +49,7 @@ $(window).load(function(){
         var bIsWM = sUserAgent.match(/windows mobile/i) == "windows mobile";
         if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
         	$('.wrapper').css('marginTop','100px')
+        	$('h1').html('滑动屏幕有惊喜')
             phone()
         } else {
            pc()
