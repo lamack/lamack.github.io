@@ -1,7 +1,10 @@
 $(window).load(function(){
-	var pc = function(){
 		var startX,startY;
+		var x =0,y=0;
+	var pc = function(){
 		$(window).on('mousedown',function(e){
+			var difXa = x;
+			var difYa = y;
 			e.preventDefault();
 			startX = e.clientX;
 			startY = e.clientY;
@@ -9,10 +12,12 @@ $(window).load(function(){
 			$(window).on('mousemove',function(e){
 				moveX = e.clientX;
 				moveY = e.clientY
-				var difX = moveX-startX;
-				var difY = moveY- startY;
+				var difX =difXa+ moveX-startX;
+				var difY =difYa+ moveY- startY;
 				var cla =  $('.wrapper').attr('class')
 				$('.wrapper').css({transform:'rotateX('+(-difY)+'deg) rotateY('+difX+'deg) rotateZ(0deg)'})
+				x= difX;
+				y=difY;
 			})
 		})
 		$(window).on('mouseup',function(e){
@@ -20,21 +25,24 @@ $(window).load(function(){
 		})
 	}
 	var phone = function(){
-			var startX,startY;
 			$(window).on('touchstart',function(e){
+				var difXa = x;
+				var difYa = y;
 				e.preventDefault();
 				var touch = e.originalEvent.targetTouches[0]; 
 				startX = touch.pageX;
 				startY = touch.pageY;
-			})
-			$(window).on('touchmove',function(e){
-				var touch = e.originalEvent.targetTouches[0]; 
-				moveX = touch.pageX;
-				moveY = touch.pageY;
-				var difX = moveX-startX;
-				var difY = moveY- startY;
-				var cla =  $('.wrapper').attr('class')
-				$('.wrapper').css({transform:'rotateX('+(-difY)+'deg) rotateY('+difX+'deg) rotateZ(0deg)'})
+				$(window).on('touchmove',function(e){
+					var touch = e.originalEvent.targetTouches[0]; 
+					moveX = touch.pageX;
+					moveY = touch.pageY;
+					var difX =difXa+ moveX-startX;
+					var difY =difYa+ moveY- startY;
+					var cla =  $('.wrapper').attr('class')
+					$('.wrapper').css({transform:'rotateX('+(-difY)+'deg) rotateY('+difX+'deg) rotateZ(0deg)'})
+					x= difX;
+					y=difY;
+				})
 			})
 	}
 	 function browserRedirect() {
