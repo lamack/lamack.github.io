@@ -28,7 +28,6 @@ $(window).load(function(){
 			$(window).on('touchstart',function(e){
 				var difXa = x;
 				var difYa = y;
-				e.preventDefault();
 				var touch = e.originalEvent.targetTouches[0]; 
 				startX = touch.pageX;
 				startY = touch.pageY;
