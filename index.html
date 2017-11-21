@@ -51,10 +51,10 @@
 				requestAnimationFrame(this.drow.bind(this))
 				function changeLight(){
 					if(that.flag){
-						that.light+=1;
+						that.light+=2;
 						if(that.light>=100) that.flag = false;
 					}else{
-						that.light-=1
+						that.light-=2
 						if(that.light<=0) that.flag = true;
 					}
 				}
@@ -109,7 +109,7 @@
 			// st.update()
 		}
 		//点击繁星
-		document.body.onclick = function(e){
+		canvas.addEventListener('click',function(e){
 			e = e || window.event;
 			var x = e.offsetX*2, y=e.offsetY*2;
 			for(var i in staArr){
@@ -120,7 +120,7 @@
 				// }
 				staArr[i].update();
 			}
-		}
+		})
 	</script>
 </body>
 </html>
