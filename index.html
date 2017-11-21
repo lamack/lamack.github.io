@@ -28,7 +28,7 @@
 				x : parseInt(Math.random()*innerWidth*2),
 				y : parseInt(Math.random()*innerHeight*2),
 				size : parseInt(Math.random()*4)+18,
-				color: 199,
+				color: parseInt(Math.random()*330),
 				// light:100,
 				// light:parseInt(Math.random()*100),
 			}
@@ -59,7 +59,7 @@
 					}
 				}
 				changeLight();
-				c.fillStyle = `hsl( ${this.color}, 0%, ${this.light+'%'})`
+				c.fillStyle = `hsl( ${this.color}, 99%, ${this.light+'%'})`
 				this.drowstar()
 			},
 			update(){
@@ -94,7 +94,7 @@
 		function animate() {
 		    requestAnimationFrame(animate)
 		    c.fillStyle = 'black'
-		    c.fillRect(0, 0, canvas.width, canvas.height*0.33)
+		    c.fillRect(0, 0, canvas.width, canvas.height)
 		}
 		animate()
 		var staArr = [];
