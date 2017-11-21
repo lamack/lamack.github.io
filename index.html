@@ -1,84 +1,126 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<title>sunrui.oi</title>
-	<link rel="stylesheet" href="index.css">
-   <script type="text/javascript">
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-101424851-1', 'auto');
-ga('send', 'pageview');
-ga('send', {
-  hitType: 'event',
-  eventCategory: 'Videos',
-  eventAction: 'play',
-  eventLabel: 'Fall Campaign'
-});
-ga('send', {
-  hitType: 'pageview',
-  page: location.pathname
-});
-   </script>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>你的星空</title>
+	<style>
+	body {
+	  overflow: hidden;
+	  margin: 0;
+	}
+	</style>
 </head>
 <body>
-   <h1 style="color:#fff;text-align:center;font-size:88px;">按下鼠标拖动有惊喜</h1>
-   <div class="xxx" style="color:#fff; font-size:40px;">点我啊</div>
-      <div>
-         <img src="a2.jpg" class="aaa1" style="width:160px;height:160px;">
-         <img src="a3.jpg" class="aaa2" style="width:160px;height:160px;">
-         <img src="a4.jpg" class="aaa3" style="width:160px;height:160px;">
-      </div>
-   <div class="wrapper">
-   	   <div class="box1 box"><img src="b5.jpeg"></div>
-   	   <div class="box2 box"><img src="b1.jpeg"></div>
-   	   <div class="box3 box"><img src="b2.jpeg"></div>
-   	   <div class="box4 box"><img src="b3.jpeg"></div>
-   	   <div class="box5 box"><img src="b4.jpeg"></div>
-   	   <div class="box6 box"><img src="a4.jpg"></div>
-   </div>
-   <!-- <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script> -->
-   <script src="jquery.js"></script>
-   <script src="index.js"></script>
-   <script type="text/javascript">
-      $('.xxx').click(function(){
-          alert('傻逼春点我干嘛？')
-          ga('send', {
-           hitType: 'event',
-           eventCategory: 'fasdfsad',
-           eventAction: 'play',
-           eventLabel: 'fasdfasdfsad'
-         });
-      })
-       $('.aaa1').click(function(){
-          alert('傻逼傻逼振')
-          ga('send', {
-           hitType: 'event',
-           eventCategory: '小色狼。。。',
-           eventAction: 'play',
-           eventLabel: 'fasdfasdfsad'
-         });
-      })
-       $('.aaa2').click(function(){
-          alert('傻逼之就你他吗最色!')
-          ga('send', {
-           hitType: 'event',
-           eventCategory: '大色狼。。。',
-           eventAction: 'play',
-           eventLabel: 'fasdfasdfsad'
-         });
-      })
-       $('.aaa3').click(function(){
-          alert('傻逼春点我干嘛？')
-          ga('send', {
-           hitType: 'event',
-           eventCategory: '老色狼。。。   ',
-           eventAction: 'play',
-           eventLabel: 'fasdfasdfsad'
-         });
-      })
-   </script>
+	<script src="js/TweenMax.min.js"></script>
+	<script src="js/render.js"></script>
+
+	<canvas></canvas>
+	<script type="text/javascript">
+		
+		const canvas = document.querySelector('canvas')
+		canvas.width = innerWidth
+		canvas.height = innerHeight
+		const c = canvas.getContext('2d')
+
+		function Star(x,y,size,color,light){
+			this.begin = {
+				x : parseInt(Math.random()*innerWidth*2),
+				y : parseInt(Math.random()*innerHeight*2),
+				size : parseInt(Math.random()*4)+18,
+				color: 199,
+				// light:100,
+				// light:parseInt(Math.random()*100),
+			}
+			this.x = x ? x:this.begin.x;
+			this.y = y ? y:this.begin.y;
+			this.size = size ? size:this.begin.size;
+			this.color = color ?color: this.begin.color;
+			this.light = light? light:parseInt(Math.random()*100);
+			this.flag = true;
+			this.back = {
+
+			}
+		}
+
+		Star.prototype = {
+			constructor : Star,
+			drow(){
+				var that = this;
+				// setTimeout(function(){that.drow(),console.log(that.light)},10)
+				requestAnimationFrame(this.drow.bind(this))
+				function changeLight(){
+					if(that.flag){
+						that.light+=1;
+						if(that.light>=100) that.flag = false;
+					}else{
+						that.light-=1
+						if(that.light<=0) that.flag = true;
+					}
+				}
+				changeLight();
+				c.fillStyle = `hsl( ${this.color}, 0%, ${this.light+'%'})`
+				this.drowstar()
+			},
+			update(){
+				// requestAnimationFrame(this.update.bind(this))
+				var that = this;
+				TweenLite.to(this, 5, {
+			        x: this.back.x,
+			        y: this.back.y,
+			        ease: Power4.easeInOut
+			    })
+			},
+			drowstar(){
+				c.save()
+                c.scale(0.5,0.5)
+				var r = this.size/2
+				c.fillRect(this.x-r,this.y-0.5,this.size,1);
+				c.fillRect(this.x-0.5,this.y-r,1,this.size);
+				c.beginPath();
+				c.shadowBlur=10;
+				c.shadowColor=`hsl( ${this.color}, 0%, 94%)`;
+				var br = r/2
+				c.arc(this.x-r/2, this.y-r/2, br, 0, Math.PI/2);
+				c.arc(this.x-r/2, this.y+r/2, br, -Math.PI/2, 0);
+				c.arc(this.x+r/2, this.y+r/2, br, -Math.PI, -Math.PI/2);
+				c.arc(this.x+r/2, this.y-r/2, br, Math.PI/2, Math.PI);
+				c.closePath();
+                c.fill();
+                c.restore();
+			},
+		}
+		
+		function animate() {
+		    requestAnimationFrame(animate)
+		    c.fillStyle = 'black'
+		    c.fillRect(0, 0, canvas.width, canvas.height*0.33)
+		}
+		animate()
+		var staArr = [];
+		var arr = arr1.concat(arr2, arr3, arr4, arr5, arr6, arr7, arr8, arr9, arr10, arr11)
+		for(var i in arr){
+
+			var st = new Star();
+			staArr.push(st)
+			st.back.x = arr[i][0]
+			st.back.y = arr[i][1]
+			st.drow()
+			// st.update()
+		}
+		//点击繁星
+		document.body.onclick = function(e){
+			e = e || window.event;
+			var x = e.offsetX*2, y=e.offsetY*2;
+			for(var i in staArr){
+				var difx = staArr[i].begin.x-x
+				var dify = staArr[i].begin.y-y
+				// if(Math.pow(difx,2)+Math.pow(dify,2)<10000){
+				// 	staArr[i].update();
+				// }
+				staArr[i].update();
+			}
+		}
+	</script>
 </body>
 </html>
