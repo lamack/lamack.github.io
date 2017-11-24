@@ -18,6 +18,8 @@
 	<canvas></canvas>
 	<script type="text/javascript">
 		
+		var tapcount = 0;
+		var status = 'begin';
 		const canvas = document.querySelector('canvas')
 		canvas.width = innerWidth
 		canvas.height = innerHeight
@@ -25,8 +27,8 @@
 
 		function Star(x,y,size,color,light){
 			this.begin = {
-				x : parseInt(Math.random()*innerWidth*2),
-				y : parseInt(Math.random()*innerHeight*2),
+				x : parseInt((Math.random()-0.5)*innerWidth*8),
+				y : parseInt((Math.random()-0.5)*innerHeight*8),
 				size : parseInt(Math.random()*4)+18,
 				color: parseInt(Math.random()*330),
 				// light:100,
@@ -35,12 +37,11 @@
 			this.x = x ? x:this.begin.x;
 			this.y = y ? y:this.begin.y;
 			this.size = size ? size:this.begin.size;
-			this.color = color ?color: this.begin.color;
-			this.light = light? light:parseInt(Math.random()*100);
+			this.color = color ? color: this.begin.color;
+			this.light = light ? light:parseInt(Math.random()*100);
 			this.flag = true;
-			this.back = {
-
-			}
+			this.back = {}
+			this.heart = {}
 		}
 
 		Star.prototype = {
@@ -65,11 +66,34 @@
 			update(){
 				// requestAnimationFrame(this.update.bind(this))
 				var that = this;
-				TweenLite.to(this, 5, {
-			        x: this.back.x,
-			        y: this.back.y,
-			        ease: Power4.easeInOut
-			    })
+				if(status=='back'){
+					TweenLite.to(this, 10, {
+				        x: this.begin.x,
+				        y: this.begin.y,
+				        size:60,
+				        ease: Power4.easeInOut,
+				        onComplete : function(){
+				        	status = 'heart'
+				        }
+				    })
+				}else if(status=='begin'){
+					TweenLite.to(this, 4, {
+				        x: this.back.x,
+				        y: this.back.y,
+				        ease: Power4.easeInOut,
+				        onComplete : function(){
+				        }
+				    })
+				}else if(status == 'heart'){
+					TweenLite.to(this, 4, {
+				        x: this.heart.x,
+				        y: this.heart.y,
+				        ease: Power4.easeInOut,
+				        onComplete : function(){
+				        }
+				    })
+				}
+				
 			},
 			drowstar(){
 				c.save()
@@ -108,19 +132,65 @@
 			st.drow()
 			// st.update()
 		}
+		//❤️画心
+		var a = innerWidth/2, b=innerHeight/2, r=60;
+		function cicle(){
+			var x = a-parseInt((Math.random()*2-1)*2*r)
+			if(Math.random()-0.5>0){
+				if(x>a){
+					var k = -1;
+					var b1 = b-k*(a+2*r);
+					var y = parseInt(Math.random()*(k*x+b1-b))+b
+				}else {
+					var k = 1;
+					var b1 = b-k*(a-2*r);
+					var y = parseInt(Math.random()*(k*x+b1-b))+b
+				}
+			}else{
+				var y = b-parseInt(Math.random()*(parseInt(Math.sqrt(Math.pow(r,2)-Math.pow(x-a+r,2))))) || b-parseInt(Math.random()*(parseInt(Math.sqrt(Math.pow(r,2)-Math.pow(x-a-r,2)))))
+			}
+			return {x:x*2,y:y*2}
+		}
+		for(var i in staArr){
+			staArr[i].heart = cicle();
+			// status = 'heart'
+			// staArr[i].update();
+		}
 		//点击繁星
 		canvas.addEventListener('click',function(e){
 			e = e || window.event;
 			var x = e.offsetX*2, y=e.offsetY*2;
-			for(var i in staArr){
-				var difx = staArr[i].begin.x-x
-				var dify = staArr[i].begin.y-y
-				// if(Math.pow(difx,2)+Math.pow(dify,2)<10000){
-				// 	staArr[i].update();
-				// }
-				staArr[i].update();
+			if(status == 'begin'){
+				tapcount++
+				if(tapcount>=6){
+					setTimeout(function(){
+						status = 'back';
+						tapcount = 0;
+					},5000)
+				}
+				changestatus(x,y)
+			}else if(status == 'back' || status == 'heart'){
+				for(var i in staArr){
+					staArr[i].update();
+				}
+
 			}
+			
 		})
+
+		function changestatus(x,y){
+			for(var i in staArr){
+				if(tapcount>=6){
+					staArr[i].update();
+				}else{
+					var difx = staArr[i].begin.x-x
+					var dify = staArr[i].begin.y-y
+					if(Math.pow(difx,2)+Math.pow(dify,2)<10000){
+						staArr[i].update();
+					}
+				}
+			}
+		}
 	</script>
 </body>
 </html>

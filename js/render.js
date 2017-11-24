@@ -4,7 +4,7 @@ var prints = function(obj,begin,end,k,b){
 	for(var y=begin;y<=end;y+=8){
 		var x = k === 0? b:(y-b)/k;
 		for(var i=y;i<(y+14);i+=8){
-			obj.push([x,i])
+			obj.push([parseInt(x),parseInt(i)])
 		}
 	}
 }
