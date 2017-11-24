@@ -67,7 +67,7 @@
 				// requestAnimationFrame(this.update.bind(this))
 				var that = this;
 				if(status=='back'){
-					TweenLite.to(this, 10, {
+					TweenLite.to(this, 8, {
 				        x: this.begin.x,
 				        y: this.begin.y,
 				        size:60,
@@ -173,7 +173,7 @@
 				for(var i in staArr){
 					staArr[i].update();
 				}
-
+				status = ""
 			}
 			
 		})
