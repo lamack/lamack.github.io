@@ -162,7 +162,7 @@
 			var x = e.offsetX*2, y=e.offsetY*2;
 			if(status == 'begin'){
 				tapcount++
-				if(tapcount>=6){
+				if(tapcount>=1){
 					setTimeout(function(){
 						status = 'back';
 						tapcount = 0;
@@ -180,7 +180,7 @@
 
 		function changestatus(x,y){
 			for(var i in staArr){
-				if(tapcount>=6){
+				if(tapcount>=1){
 					staArr[i].update();
 				}else{
 					var difx = staArr[i].begin.x-x

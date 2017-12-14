@@ -1,8 +1,9 @@
 var arr1 = [], arr2 = [], arr3 = [], arr4 = [], arr5 = [], arr6 = [], arr7 = [], arr8 = [], arr9 = [], arr10 = [], arr11 = [];
 //画笔画
-var prints = function(obj,begin,end,k,b){
+var prints = function(obj,begin,end,k,l){
+	var b = begin-(k*l);
 	for(var y=begin;y<=end;y+=8){
-		var x = k === 0? b:(y-b)/k;
+		var x = k==0? l:(y-b)/k;
 		for(var i=y;i<(y+14);i+=8){
 			obj.push([parseInt(x),parseInt(i)])
 		}
@@ -16,14 +17,16 @@ var printx= function(obj,begin,end,b){
 		}
 	}
 }
-prints(arr1,innerHeight*0.1, innerHeight*0.2, -0.67, innerWidth*0.7)
-prints(arr2,innerHeight*0.17, innerHeight*0.3, -0.67, innerWidth*0.85)
-prints(arr3,innerHeight*0.3, innerHeight*0.6, 0, innerWidth*0.7)
-prints(arr4,innerHeight*0.1, innerHeight*0.26, -0.83, innerWidth*1.2)
-prints(arr5,innerHeight*0.12, innerHeight*0.26, 0.83, -innerWidth*0.83)
-printx(arr6,innerWidth*1.1, innerWidth*1.36,  innerHeight*0.24)
-printx(arr7,innerWidth, innerWidth*1.46,  innerHeight*0.32)
-prints(arr8,innerHeight*0.28, innerHeight*0.6, 0, innerWidth*1.23)
-prints(arr9,innerHeight*0.53, innerHeight*0.59, 1, -innerWidth*0.18)
-prints(arr9,innerHeight*0.44, innerHeight*0.53, -1.2, innerWidth*2.1)
-prints(arr9,innerHeight*0.44, innerHeight*0.54, 1.2, -innerWidth*0.8)
+var inW = innerWidth;
+var inH = innerHeight;
+prints(arr1,inH*0.1, inH*0.2, -0.67, inW*0.7)
+prints(arr2,inH*0.17, inH*0.3, -0.67, inW*0.7)
+prints(arr3,inH*0.3, inH*0.6, 0, inW*0.6)
+prints(arr4,inH*0.1, inH*0.26, -0.83, inW*1.2)
+prints(arr5,inH*0.12, inH*0.26, 0.83, inW*1.2)
+printx(arr6,inW*1.07, inW*1.3,  inH*0.24)
+printx(arr7,inW*0.9, inW*1.45,  inH*0.32)
+prints(arr8,inH*0.28, inH*0.6, 0, inW*1.2)
+prints(arr9,inH*0.53, inH*0.59, 1, inW*1.1)
+prints(arr9,inH*0.44, inH*0.53, -1.2, inW*1.1)
+prints(arr9,inH*0.44, inH*0.54, 1.2, inW*1.3)
