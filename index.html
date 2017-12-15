@@ -77,10 +77,10 @@
 				        }
 				    })
 				}else if(status=='begin'){
-					TweenLite.to(this, 4, {
+					TweenLite.to(this, 2, {
 				        x: this.back.x,
 				        y: this.back.y,
-				        ease: Power4.easeInOut,
+				        ease: Power1.easeNone,
 				        onComplete : function(){
 				        }
 				    })
@@ -122,8 +122,12 @@
 		}
 		animate()
 		var staArr = [];
-		var arr = arr1.concat(arr2, arr3, arr4, arr5, arr6, arr7, arr8, arr9, arr10, arr11, arr12, arr13, arr14, arr15, arr16, arr17, arr18, arr19, arr20, arr21, arr22, arr23, arr24, arr25, arr26, arr27, arr28, arr29, arr30, arr31, arr32, arr33, arr34, arr35, arr36)
-		for(var i in arr){
+		var arr = [];
+		for(var i in nameArr){
+			arr = arr.concat(nameArr[i])
+		}
+		//一次性星星数组
+		/*for(var i in arr){
 
 			var st = new Star();
 			staArr.push(st)
@@ -131,6 +135,19 @@
 			st.back.y = arr[i][1]
 			st.drow()
 			// st.update()
+		}*/
+		//按笔画走的星星
+		for(var i in nameArr){
+			var obj = [];
+			for(var j in nameArr[i]){
+				var st = new Star();
+				obj.push(st)
+				st.back.x = nameArr[i][j][0]
+				st.back.y = nameArr[i][j][1]
+				st.drow()
+				// st.update()
+			}
+			staArr.push(obj)
 		}
 		//❤️画心
 		var a = innerWidth/2, b=innerHeight/2, r=60;
@@ -152,7 +169,10 @@
 			return {x:x*2,y:y*2}
 		}
 		for(var i in staArr){
-			staArr[i].heart = cicle();
+			for(var j in staArr[i]){
+				staArr[i][j].heart = cicle();
+			}
+			
 			// status = 'heart'
 			// staArr[i].update();
 		}
@@ -162,16 +182,18 @@
 			var x = e.offsetX*2, y=e.offsetY*2;
 			if(status == 'begin'){
 				tapcount++
-				if(tapcount>=1){
-					setTimeout(function(){
-						status = 'back';
-						tapcount = 0;
-					},5000)
-				}
+				// if(tapcount>=1){
+				// 	setTimeout(function(){
+				// 		status = 'back';
+				// 		tapcount = 0;
+				// 	},5000)
+				// }
 				changestatus(x,y)
 			}else if(status == 'back' || status == 'heart'){
 				for(var i in staArr){
-					staArr[i].update();
+					for(var j in staArr[i]){
+						staArr[i][j].update();
+					}
 				}
 				status = ""
 			}
@@ -179,17 +201,31 @@
 		})
 
 		function changestatus(x,y){
-			for(var i in staArr){
-				if(tapcount>=1){
-					staArr[i].update();
-				}else{
-					var difx = staArr[i].begin.x-x
-					var dify = staArr[i].begin.y-y
-					if(Math.pow(difx,2)+Math.pow(dify,2)<10000){
-						staArr[i].update();
+			if(tapcount>=3){
+				var i = 0;
+				var timer = setInterval(function(){
+					if(i>=staArr.length){ 
+						status = 'back';
+						tapcount = 0;
+						clearInterval(timer);return;
+					};
+					for(var j in staArr[i]){
+						staArr[i][j].update();
+					}
+					i++
+				},1000)
+			}else{
+				for(var i in staArr){
+					for(var j in staArr[i]){
+						var difx = staArr[i][j].begin.x-x
+						var dify = staArr[i][j].begin.y-y
+						if(Math.pow(difx,2)+Math.pow(dify,2)<10000){
+							staArr[i][j].update();
+						}
 					}
 				}
 			}
+			
 		}
 	</script>
 </body>
