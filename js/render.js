@@ -4,7 +4,7 @@ var prints = function(obj,begin,end,k,l){
 	var b = begin-(k*l);
 	for(var y=begin;y<=end;y+=8){
 		var x = k==0? l:(y-b)/k;
-		for(var i=y;i<(y+14);i+=8){
+		for(var i=y;i<(y+7);i+=8){
 			obj.push([parseInt(x),parseInt(i)])
 		}
 	}
@@ -12,7 +12,7 @@ var prints = function(obj,begin,end,k,l){
 //画横向直线
 var printx= function(obj,begin,end,b){
 	for(var x=begin; x<end; x+=8){
-		for(var y=b;y<b+11;y+=6){
+		for(var y=b;y<b+5;y+=6){
 			obj.push([x,y])
 		}
 	}
