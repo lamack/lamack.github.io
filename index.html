@@ -9,6 +9,17 @@
 	  overflow: hidden;
 	  margin: 0;
 	}
+	canvas {
+	}
+	canvas.active{
+		/*animation: canv 6s;*/
+		transform: scale(1) rotate(180deg)
+	}
+	@keyframes canv{
+		0%{transform: scale(1)}
+		50%{transform: scale(3)}
+		100%{transform: scale(1) rotate(180deg)}
+	}
 	</style>
 </head>
 <body>
@@ -52,10 +63,10 @@
 				requestAnimationFrame(this.drow.bind(this))
 				function changeLight(){
 					if(that.flag){
-						that.light+=2;
+						that.light+=1;
 						if(that.light>=100) that.flag = false;
 					}else{
-						that.light-=2
+						that.light-=1
 						if(that.light<=0) that.flag = true;
 					}
 				}
@@ -65,15 +76,21 @@
 			},
 			update(){
 				// requestAnimationFrame(this.update.bind(this))
+				// Bounce.easeOut
+				// Back.easeInOut
+				// Back.easeInOut
+				// Elastic.easeInOut
+				// Power1.easeNone
+				// Power1.easeOut
 				var that = this;
 				if(status=='back'){
-					TweenLite.to(this, 8, {
+					TweenLite.to(this, 6, {
 				        x: this.begin.x,
 				        y: this.begin.y,
 				        size:60,
 				        ease: Power4.easeInOut,
 				        onComplete : function(){
-				        	status = 'heart'
+				        	status = 'heart';
 				        }
 				    })
 				}else if(status=='begin'){
@@ -88,6 +105,7 @@
 					TweenLite.to(this, 4, {
 				        x: this.heart.x,
 				        y: this.heart.y,
+				        size:40,
 				        ease: Power4.easeInOut,
 				        onComplete : function(){
 				        }
@@ -114,7 +132,6 @@
                 c.restore();
 			},
 		}
-		
 		function animate() {
 		    requestAnimationFrame(animate)
 		    c.fillStyle = 'black'
@@ -150,50 +167,50 @@
 			staArr.push(obj)
 		}
 		//❤️画心
-		var a = innerWidth/2, b=innerHeight/2, r=60;
-		function cicle(){
-			var x = a-parseInt((Math.random()*2-1)*2*r)
-			if(Math.random()-0.5>0){
-				if(x>a){
-					var k = -1;
-					var b1 = b-k*(a+2*r);
-					var y = parseInt(Math.random()*(k*x+b1-b))+b
-				}else {
-					var k = 1;
-					var b1 = b-k*(a-2*r);
-					var y = parseInt(Math.random()*(k*x+b1-b))+b
-				}
-			}else{
-				var y = b-parseInt(Math.random()*(parseInt(Math.sqrt(Math.pow(r,2)-Math.pow(x-a+r,2))))) || b-parseInt(Math.random()*(parseInt(Math.sqrt(Math.pow(r,2)-Math.pow(x-a-r,2)))))
-			}
-			return {x:x*2,y:y*2}
+		var a = innerWidth/2, b=innerHeight/2, R=80;
+		//在心里
+		function inheart(x, y, r) {
+		    // x^2+(y-(x^2)^(1/3))^2 = 1
+		    // http://www.wolframalpha.com/input/?i=x%5E2%2B%28y-%28x%5E2%29%5E%281%2F3%29%29%5E2+%3D+1
+		    var z = ((x / r) * (x / r) + (y / r) * (y / r) - 1) * ((x / r) * (x / r) + (y / r) * (y / r) - 1) * ((x / r) * (x / r) + (y / r) * (y / r) - 1) - (x / r) * (x / r) * (y / r) * (y / r) * (y / r);
+		    return z < 0;
 		}
+		var objh
+		function cicle() {
+			var x =parseInt(Math.random()*innerWidth)
+			var y =parseInt(Math.random()*innerHeight)
+			if(!inheart(x-innerWidth/2,y-innerHeight/2,R)){
+				cicle()
+			}else{
+				objh = {x:x*2,y:y*2};
+				return;
+			}
+		};
 		for(var i in staArr){
 			for(var j in staArr[i]){
-				staArr[i][j].heart = cicle();
+				cicle()
+				staArr[i][j].heart = objh;
 			}
-			
-			// status = 'heart'
-			// staArr[i].update();
 		}
 		//点击繁星
 		canvas.addEventListener('click',function(e){
 			e = e || window.event;
 			var x = e.offsetX*2, y=e.offsetY*2;
 			if(status == 'begin'){
+				if(tapcount>=3) return;
 				tapcount++
-				// if(tapcount>=1){
-				// 	setTimeout(function(){
-				// 		status = 'back';
-				// 		tapcount = 0;
-				// 	},5000)
-				// }
 				changestatus(x,y)
 			}else if(status == 'back' || status == 'heart'){
 				for(var i in staArr){
 					for(var j in staArr[i]){
 						staArr[i][j].update();
 					}
+				}
+				if(status == 'back'){
+					setTimeout(function(){
+						canvas.click()
+						canvas.classList.add('active')
+					},6000)	
 				}
 				status = ""
 			}
