@@ -10,25 +10,49 @@
 	  margin: 0;
 	}
 	canvas {
+		transition: all 4s
 	}
 	canvas.active{
-		/*animation: canv 6s;*/
 		transform: scale(1) rotate(180deg)
 	}
-	@keyframes canv{
-		0%{transform: scale(1)}
-		50%{transform: scale(3)}
-		100%{transform: scale(1) rotate(180deg)}
+	#text{
+		position: absolute;
+		top:25%;left:15%;
+		width:70%;
+		height:50%;
+		display: none;
+		z-index: 999;
 	}
 	</style>
 </head>
 <body>
 	<script src="js/TweenMax.min.js"></script>
 	<script src="js/render.js"></script>
-
+	<div id="text">
+	    <div id="code">
+	        <font color="#FF0000"> <span class="say">亲爱的点点：</span>
+	            <br>
+	            <span class="say"> </span>
+	            <br>
+	            <span class="say"> 我们相识不久、相处不长,</span>
+	            <br>
+	            <span class="say"> 但是感觉对了、方向一致,就容易心动！</span>
+	            <br>
+	            <span class="say"> 我对你心动了</span>
+	            <br>
+	            <span class="say"> 如果你也对我心动</span>
+	            <br>
+	            <br>
+	            <span class="say"> 那我们在一起吧！</span>
+	            <br>
+	            <span class="say"><span class="space"></span> ——小孙——</span>
+	        </font>
+	        <p></p>
+	        _</div>
+	</div>
 	<canvas></canvas>
 	<script type="text/javascript">
-		
+		var flagb = true;
 		var tapcount = 0;
 		var status = 'begin';
 		const canvas = document.querySelector('canvas')
@@ -90,7 +114,7 @@
 				        size:60,
 				        ease: Power4.easeInOut,
 				        onComplete : function(){
-				        	status = 'heart';
+				        	if(flagb)status = 'heart';
 				        }
 				    })
 				}else if(status=='begin'){
@@ -135,7 +159,7 @@
 		function animate() {
 		    requestAnimationFrame(animate)
 		    c.fillStyle = 'black'
-		    c.fillRect(0, 0, canvas.width, canvas.height)
+		    c.fillRect(0, 0, canvas.width, canvas.height/2)
 		}
 		animate()
 		var staArr = [];
@@ -162,7 +186,9 @@
 				st.back.x = nameArr[i][j][0]
 				st.back.y = nameArr[i][j][1]
 				st.drow()
-				// st.update()
+
+				status = 'begin'
+				st.update()
 			}
 			staArr.push(obj)
 		}
@@ -197,7 +223,7 @@
 			e = e || window.event;
 			var x = e.offsetX*2, y=e.offsetY*2;
 			if(status == 'begin'){
-				if(tapcount>=3) return;
+				if(tapcount>=5) return;
 				tapcount++
 				changestatus(x,y)
 			}else if(status == 'back' || status == 'heart'){
@@ -211,6 +237,15 @@
 						canvas.click()
 						canvas.classList.add('active')
 					},6000)	
+				}else{
+					console.log(99)
+					setTimeout(function(){
+						document.querySelector('#text').style.display="block"
+						write()
+						status = 'back'
+						canvas.click()
+						flagb = false
+					},6000)
 				}
 				status = ""
 			}
@@ -218,7 +253,7 @@
 		})
 
 		function changestatus(x,y){
-			if(tapcount>=3){
+			if(tapcount>=5){
 				var i = 0;
 				var timer = setInterval(function(){
 					if(i>=staArr.length){ 
@@ -244,6 +279,23 @@
 			}
 			
 		}
+		function write(){
+			var $ele = document.querySelector('#code'),str = $ele.innerHTML, progress = 0;
+       		 $ele.innerHTML="";
+			var timer = setInterval(function() {
+				var current = str.substr(progress, 1);
+				if (current == '<') {
+					progress = str.indexOf('>', progress) + 1;
+				} else {
+					progress++;
+				}
+				$ele.innerHTML =str.substring(0, progress) + (progress & 1 ? '_' : '');
+				if (progress >= str.length) {
+					clearInterval(timer);
+				}
+			}, 75);
+		}
+		
 	</script>
 </body>
 </html>
