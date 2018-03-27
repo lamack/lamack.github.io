@@ -8,6 +8,7 @@
 	body {
 	  overflow: hidden;
 	  margin: 0;
+	  background:#000;
 	}
 	canvas {
 		transition: all 4s
@@ -30,22 +31,22 @@
 	<script src="js/render.js"></script>
 	<div id="text">
 	    <div id="code">
-	        <font color="#FF0000"> <span class="say">亲爱的点点：</span>
+	        <font color="#FF0000"> <span class="say">亲爱的小影：</span>
 	            <br>
 	            <span class="say"> </span>
 	            <br>
-	            <span class="say"> 我们相识不久、相处不长,</span>
+	            <span class="say"> 曾经有一份真挚的爱情摆在我的面前,</span>
 	            <br>
-	            <span class="say"> 但是感觉对了、方向一致,就容易心动！</span>
+	            <span class="say"> 我却没有好好珍惜！</span>
 	            <br>
-	            <span class="say"> 我对你心动了</span>
+	            <span class="say"> 直到失去时才后悔莫及</span>
 	            <br>
-	            <span class="say"> 如果你也对我心动</span>
+	            <span class="say"> 如果上天再给我一次机会</span>
 	            <br>
 	            <br>
-	            <span class="say"> 那我们在一起吧！</span>
+	            <span class="say"> 我们在一起吧！</span>
 	            <br>
-	            <span class="say"><span class="space"></span> ——小孙——</span>
+	            <span class="say"><span class="space"></span> ——至尊宝——</span>
 	        </font>
 	        <p></p>
 	        _</div>
@@ -159,7 +160,7 @@
 		function animate() {
 		    requestAnimationFrame(animate)
 		    c.fillStyle = 'black'
-		    c.fillRect(0, 0, canvas.width, canvas.height/2)
+		    c.fillRect(0, 0, canvas.width, canvas.height)
 		}
 		animate()
 		var staArr = [];
@@ -188,7 +189,8 @@
 				st.drow()
 
 				status = 'begin'
-				st.update()
+				//直接一次性渲染文字
+				// st.update()
 			}
 			staArr.push(obj)
 		}

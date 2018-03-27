@@ -1,6 +1,7 @@
 var nameArr = [];
 var xwsObj = [];
 var zyObj = [];
+var xyObj = [];
 //画笔画
 var prints = function(nObj, begin,end,k,l){
 	var obj = [];
@@ -23,6 +24,23 @@ var printx= function(nObj,begin,end,b){
 	}
 	nObj.push(obj)
 }
+//画抛物线
+// var printp = function(nObj,x1,y1,x2,y2,x3,y3){
+// 	var a,b,c;
+// 	var o = x1*x1-x2*x2,p=y3-y2,q=x3-x2;
+// 	var r = x3*x3-x2*x2,s=y1-y2,t=x1-x2;
+// 	b = ((o*p-r*s)/(o*q-r*t)).toFixed(2);
+// 	a = ((s-t*b)/o).toFixed(2);
+// 	c = (y1-x1*x1*a-b*x1).toFixed(2)
+// 	console.log(o,a,b,c)
+// 	var obj = []
+// 	for(var y=y1;y<=y3;y+=5){
+// 		x = parseInt((Math.sqrt(y-c+b*b/(4*a))-b/Math.sqrt(a)/2)/Math.sqrt(a))
+// 		obj.push([x,y])
+// 	}
+// 	nObj.push(obj)
+// }
+
 var inW = innerWidth;
 var inH = innerHeight;
 /*徐*/
@@ -71,5 +89,44 @@ prints(zyObj, inH*0.15, inH*0.23, 1, inW*0.5)
 prints(zyObj, inH*0.15, inH*0.23, -1, inW*0.92)
 printx(zyObj, inW*0.42, inW*1,  inH*0.28)
 printx(zyObj, inW*0.36, inW*1.16,  inH*0.48)
+prints(zyObj, inH*0.28, inH*0.48, 0, inW*0.73)
+prints(zyObj, inH*0.48, inH*0.68, -1.4, inW*0.73)
+prints(zyObj, inH*0.54, inH*0.68, 1, inW*0.8)
+prints(zyObj, inH*0.28, inH*0.78, 0, inW*1.3)
+prints(zyObj, inH*0.2, inH*0.34, 0.7, inW*1.3)
+prints(zyObj, inH*0.34, inH*0.44, -1, inW*1.6)
+prints(zyObj, inH*0.44, inH*0.54, 0.7, inW*1.4)
+prints(zyObj, inH*0.56, inH*0.62, -0.5, inW*1.6)
+//嫣
+prints(zyObj, inH*0.56, inH*0.62, -0.5, inW*1.6)
+
+
+//小
+prints(xyObj, inH*0.24, inH*0.65, 0, inW*1)
+prints(xyObj, inH*0.57, inH*0.65, 1, inW*0.84)
+prints(xyObj, inH*0.4, inH*0.54, -1.6, inW*0.76)
+prints(xyObj, inH*0.4, inH*0.57, 1.3, inW*1.2)
+
+//影
+prints(xyObj, inH*0.84, inH*1, 0, inW*0.52)
+printx(xyObj, inW*0.52, inW*0.9,  inH*0.84)
+prints(xyObj, inH*0.84, inH*1, 0, inW*0.9)
+printx(xyObj, inW*0.52, inW*0.9,  inH*0.91)
+printx(xyObj, inW*0.52, inW*0.9,  inH*1)
+prints(xyObj, inH*1.04, inH*1.08, 1.3, inW*0.66)
+printx(xyObj, inW*0.38, inW*1.05,  inH*1.13)
+prints(xyObj, inH*1.17, inH*1.29, 0, inW*0.55)
+printx(xyObj, inW*0.55, inW*0.85,  inH*1.17)
+prints(xyObj, inH*1.17, inH*1.29, 0, inW*0.85)
+printx(xyObj, inW*0.55, inW*0.85,  inH*1.29)
+
+prints(xyObj, inH*1.37, inH*1.6, 0, inW*0.7)
+prints(xyObj, inH*1.54, inH*1.6, 1, inW*0.58)
+prints(xyObj, inH*1.42, inH*1.54, -1.6, inW*0.57)
+prints(xyObj, inH*1.42, inH*1.56, 1.3, inW*0.82)
+
+prints(xyObj, inH*1, inH*1.14, -1, inW*1.4)
+prints(xyObj, inH*1.14, inH*1.34, -1, inW*1.5)
+prints(xyObj, inH*1.34, inH*1.57, -1, inW*1.5)
 //名子数组
-nameArr = zyObj;
+nameArr = xyObj;
