@@ -65,7 +65,7 @@
 			this.begin = {
 				x : parseInt((Math.random()-0.5)*innerWidth*8),
 				y : parseInt((Math.random()-0.5)*innerHeight*8),
-				size : parseInt(Math.random()*4)+18,
+				size : parseInt(Math.random()*4)+32,
 				color: parseInt(Math.random()*330),
 				// light:100,
 				// light:parseInt(Math.random()*100),
@@ -225,7 +225,7 @@
 			e = e || window.event;
 			var x = e.offsetX*2, y=e.offsetY*2;
 			if(status == 'begin'){
-				if(tapcount>=5) return;
+				if(tapcount>=4) return;
 				tapcount++
 				changestatus(x,y)
 			}else if(status == 'back' || status == 'heart'){
@@ -255,12 +255,16 @@
 		})
 
 		function changestatus(x,y){
-			if(tapcount>=5){
+			if(tapcount>=4){
 				var i = 0;
 				var timer = setInterval(function(){
 					if(i>=staArr.length){ 
 						status = 'back';
 						tapcount = 0;
+						//直接下一步
+						setTimeout(function(){
+							canvas.click();
+						},3000)
 						clearInterval(timer);return;
 					};
 					for(var j in staArr[i]){
