@@ -1,307 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<title>你的星空</title>
-	<style>
-	body {
-	  overflow: hidden;
-	  margin: 0;
-	  background:#000;
-	}
-	canvas {
-		transition: all 4s
-	}
-	canvas.active{
-		transform: scale(1) rotate(180deg)
-	}
-	#text{
-		position: absolute;
-		top:25%;left:15%;
-		width:70%;
-		height:50%;
-		display: none;
-		z-index: 999;
-	}
-	</style>
-</head>
-<body>
-	<script src="js/TweenMax.min.js"></script>
-	<script src="js/render.js"></script>
-	<div id="text">
-	    <div id="code">
-	        <font color="#FF0000"> <span class="say">亲爱的小影：</span>
-	            <br>
-	            <span class="say"> </span>
-	            <br>
-	            <span class="say"> 曾经有一份真挚的爱情摆在我的面前,</span>
-	            <br>
-	            <span class="say"> 我却没有好好珍惜！</span>
-	            <br>
-	            <span class="say"> 直到失去时才后悔莫及</span>
-	            <br>
-	            <span class="say"> 如果上天再给我一次机会</span>
-	            <br>
-	            <br>
-	            <span class="say"> 我们在一起吧！</span>
-	            <br>
-	            <span class="say"><span class="space"></span> ——至尊宝——</span>
-	        </font>
-	        <p></p>
-	        _</div>
-	</div>
-	<canvas></canvas>
-	<script type="text/javascript">
-		var flagb = true;
-		var tapcount = 0;
-		var status = 'begin';
-		const canvas = document.querySelector('canvas')
-		canvas.width = innerWidth
-		canvas.height = innerHeight
-		const c = canvas.getContext('2d')
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <title>Dash Social</title>
+    <style>
+      body {
+        overflow: hidden;
+        margin: 0;
+        background: #000;
+      }
+      .container {
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div style="height: 100%; flex: 1"></div>
+      <iframe
+        id="localIframe"
+        src="https://staging-iota.kawo.com/embed?sig=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGM4OWY2ZWU0YjA0MTNlODU1MjQ1ZmUiLCJpc3MiOiJodHRwczovL3N0YWdpbmctYXBwLmthd28uY29tL2F1dGgiLCJhdWQiOiJodHRwczovL3N0YWdpbmctYXBwLmthd28uY29tL2VtYmVkIiwiaWF0IjoxNzU2NzEwODgzLCJleHAiOjE3NTY3MzI0ODMsImJyYW5kSWQiOiI2NDI2OTViOTQ4MjQ3OTExZjhmMGM2Y2UiLCJzY29wZSI6ImVtYmVkOnJlYWQ6YnJhbmRfb3ZlcnZpZXcifQ.8Z-urwYnmHp41rHOTkJlTjAM_LCDPHfCA-gSlwG5QiU"
+        width="800"
+        height="100%"
+        frameborder="1"
+      ></iframe>
+    </div>
 
-		function Star(x,y,size,color,light){
-			this.begin = {
-				x : parseInt((Math.random()-0.5)*innerWidth*8),
-				y : parseInt((Math.random()-0.5)*innerHeight*8),
-				size : parseInt(Math.random()*4)+32,
-				color: parseInt(Math.random()*330),
-				// light:100,
-				// light:parseInt(Math.random()*100),
-			}
-			this.x = x ? x:this.begin.x;
-			this.y = y ? y:this.begin.y;
-			this.size = size ? size:this.begin.size;
-			this.color = color ? color: this.begin.color;
-			this.light = light ? light:parseInt(Math.random()*100);
-			this.flag = true;
-			this.back = {}
-			this.heart = {}
-		}
+    <script type="text/javascript">
+      window.addEventListener(
+        "message",
+        (event) => {
+          console.error(99999, event);
+          // 安全校验：只处理来自指定域名的消息（重要！防止恶意网站攻击）
+          const allowedOrigins = [
+            "http://localhost:3000", // 子页面的本地域名+端口
+            "https://staging-iota.kawo.com", // 若子页面可能在其他端口，需添加
+          ];
 
-		Star.prototype = {
-			constructor : Star,
-			drow(){
-				var that = this;
-				// setTimeout(function(){that.drow(),console.log(that.light)},10)
-				requestAnimationFrame(this.drow.bind(this))
-				function changeLight(){
-					if(that.flag){
-						that.light+=1;
-						if(that.light>=100) that.flag = false;
-					}else{
-						that.light-=1
-						if(that.light<=0) that.flag = true;
-					}
-				}
-				changeLight();
-				c.fillStyle = `hsl( ${this.color}, 99%, ${this.light+'%'})`
-				this.drowstar()
-			},
-			update(){
-				// requestAnimationFrame(this.update.bind(this))
-				// Bounce.easeOut
-				// Back.easeInOut
-				// Back.easeInOut
-				// Elastic.easeInOut
-				// Power1.easeNone
-				// Power1.easeOut
-				var that = this;
-				if(status=='back'){
-					TweenLite.to(this, 6, {
-				        x: this.begin.x,
-				        y: this.begin.y,
-				        size:60,
-				        ease: Power4.easeInOut,
-				        onComplete : function(){
-				        	if(flagb)status = 'heart';
-				        }
-				    })
-				}else if(status=='begin'){
-					TweenLite.to(this, 2, {
-				        x: this.back.x,
-				        y: this.back.y,
-				        ease: Power1.easeNone,
-				        onComplete : function(){
-				        }
-				    })
-				}else if(status == 'heart'){
-					TweenLite.to(this, 4, {
-				        x: this.heart.x,
-				        y: this.heart.y,
-				        size:40,
-				        ease: Power4.easeInOut,
-				        onComplete : function(){
-				        }
-				    })
-				}
-				
-			},
-			drowstar(){
-				c.save()
-                c.scale(0.5,0.5)
-				var r = this.size/2
-				c.fillRect(this.x-r,this.y-0.5,this.size,1);
-				c.fillRect(this.x-0.5,this.y-r,1,this.size);
-				c.beginPath();
-				c.shadowBlur=10;
-				c.shadowColor=`hsl( ${this.color}, 0%, 94%)`;
-				var br = r/2
-				c.arc(this.x-r/2, this.y-r/2, br, 0, Math.PI/2);
-				c.arc(this.x-r/2, this.y+r/2, br, -Math.PI/2, 0);
-				c.arc(this.x+r/2, this.y+r/2, br, -Math.PI, -Math.PI/2);
-				c.arc(this.x+r/2, this.y-r/2, br, Math.PI/2, Math.PI);
-				c.closePath();
-                c.fill();
-                c.restore();
-			},
-		}
-		function animate() {
-		    requestAnimationFrame(animate)
-		    c.fillStyle = 'black'
-		    c.fillRect(0, 0, canvas.width, canvas.height)
-		}
-		animate()
-		var staArr = [];
-		var arr = [];
-		for(var i in nameArr){
-			arr = arr.concat(nameArr[i])
-		}
-		//一次性星星数组
-		/*for(var i in arr){
+          if (!allowedOrigins.includes(event.origin)) {
+            console.warn("拒绝接收来自未授权域名的消息：", event.origin);
+            return;
+          }
+          alert("父页面收到消息：", event.data.type);
+          // 验证通过，处理消息
+          console.error("父页面收到消息：", event.data);
 
-			var st = new Star();
-			staArr.push(st)
-			st.back.x = arr[i][0]
-			st.back.y = arr[i][1]
-			st.drow()
-			// st.update()
-		}*/
-		//按笔画走的星星
-		for(var i in nameArr){
-			var obj = [];
-			for(var j in nameArr[i]){
-				var st = new Star();
-				obj.push(st)
-				st.back.x = nameArr[i][j][0]
-				st.back.y = nameArr[i][j][1]
-				st.drow()
-
-				status = 'begin'
-				//直接一次性渲染文字
-				// st.update()
-			}
-			staArr.push(obj)
-		}
-		//❤️画心
-		var a = innerWidth/2, b=innerHeight/2, R=80;
-		//在心里
-		function inheart(x, y, r) {
-		    // x^2+(y-(x^2)^(1/3))^2 = 1
-		    // http://www.wolframalpha.com/input/?i=x%5E2%2B%28y-%28x%5E2%29%5E%281%2F3%29%29%5E2+%3D+1
-		    var z = ((x / r) * (x / r) + (y / r) * (y / r) - 1) * ((x / r) * (x / r) + (y / r) * (y / r) - 1) * ((x / r) * (x / r) + (y / r) * (y / r) - 1) - (x / r) * (x / r) * (y / r) * (y / r) * (y / r);
-		    return z < 0;
-		}
-		var objh
-		function cicle() {
-			var x =parseInt(Math.random()*innerWidth)
-			var y =parseInt(Math.random()*innerHeight)
-			if(!inheart(x-innerWidth/2,y-innerHeight/2,R)){
-				cicle()
-			}else{
-				objh = {x:x*2,y:y*2};
-				return;
-			}
-		};
-		for(var i in staArr){
-			for(var j in staArr[i]){
-				cicle()
-				staArr[i][j].heart = objh;
-			}
-		}
-		//点击繁星
-		canvas.addEventListener('click',function(e){
-			e = e || window.event;
-			var x = e.offsetX*2, y=e.offsetY*2;
-			if(status == 'begin'){
-				if(tapcount>=4) return;
-				tapcount++
-				changestatus(x,y)
-			}else if(status == 'back' || status == 'heart'){
-				for(var i in staArr){
-					for(var j in staArr[i]){
-						staArr[i][j].update();
-					}
-				}
-				if(status == 'back'){
-					setTimeout(function(){
-						canvas.click()
-						canvas.classList.add('active')
-					},6000)	
-				}else{
-					console.log(99)
-					setTimeout(function(){
-						document.querySelector('#text').style.display="block"
-						write()
-						status = 'back'
-						canvas.click()
-						flagb = false
-					},6000)
-				}
-				status = ""
-			}
-			
-		})
-
-		function changestatus(x,y){
-			if(tapcount>=4){
-				var i = 0;
-				var timer = setInterval(function(){
-					if(i>=staArr.length){ 
-						status = 'back';
-						tapcount = 0;
-						//直接下一步
-						setTimeout(function(){
-							canvas.click();
-						},3000)
-						clearInterval(timer);return;
-					};
-					for(var j in staArr[i]){
-						staArr[i][j].update();
-					}
-					i++
-				},1000)
-			}else{
-				for(var i in staArr){
-					for(var j in staArr[i]){
-						var difx = staArr[i][j].begin.x-x
-						var dify = staArr[i][j].begin.y-y
-						if(Math.pow(difx,2)+Math.pow(dify,2)<10000){
-							staArr[i][j].update();
-						}
-					}
-				}
-			}
-			
-		}
-		function write(){
-			var $ele = document.querySelector('#code'),str = $ele.innerHTML, progress = 0;
-       		 $ele.innerHTML="";
-			var timer = setInterval(function() {
-				var current = str.substr(progress, 1);
-				if (current == '<') {
-					progress = str.indexOf('>', progress) + 1;
-				} else {
-					progress++;
-				}
-				$ele.innerHTML =str.substring(0, progress) + (progress & 1 ? '_' : '');
-				if (progress >= str.length) {
-					clearInterval(timer);
-				}
-			}, 75);
-		}
-		
-	</script>
-</body>
+          // 可选：向子页面发送回复
+        },
+        false
+      );
+    </script>
+  </body>
 </html>
