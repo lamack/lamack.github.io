@@ -22,7 +22,9 @@
   </head>
   <body>
     <div class="container">
-      <div style="height: 100%; flex: 1"></div>
+      <div style="height: 100%; flex: 1">
+        <button id="button">更换过期链接</button>
+      </div>
       <iframe
         id="localIframe"
         src="https://staging-iota.kawo.com/embed?sig=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGM4OWY2ZWU0YjA0MTNlODU1MjQ1ZmUiLCJpc3MiOiJodHRwczovL3N0YWdpbmctYXBwLmthd28uY29tL2F1dGgiLCJhdWQiOiJodHRwczovL3N0YWdpbmctYXBwLmthd28uY29tL2VtYmVkIiwiaWF0IjoxNzU2Nzk5OTI3LCJleHAiOjE3NTY4MjE1MjcsImJyYW5kSWQiOiI2NDI2OTViOTQ4MjQ3OTExZjhmMGM2Y2UiLCJzY29wZSI6ImVtYmVkOnJlYWQ6YnJhbmRfb3ZlcnZpZXcifQ.kQ3rruf9rgsTWMCxOBa06_Aui-jMLcCtq-_VyOql-s8"
@@ -33,6 +35,11 @@
     </div>
 
     <script type="text/javascript">
+      const iframe = document.getElementById("localIframe");
+      document.getElementById("button").addEventListener("click", () => {
+        iframe.src =
+          "https://staging-iota.kawo.com/embed?sig=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI1OGM4OWY2ZWU0YjA0MTNlODU1MjQ1ZmUiLCJpc3MiOiJodHRwczovL3N0YWdpbmctYXBwLmthd28uY29tL2F1dGgiLCJhdWQiOiJodHRwczovL3N0YWdpbmctYXBwLmthd28uY29tL2VtYmVkIiwiaWF0IjoxNzU2NzEwODgzLCJleHAiOjE3NTY3MzI0ODMsImJyYW5kSWQiOiI2NDI2OTViOTQ4MjQ3OTExZjhmMGM2Y2UiLCJzY29wZSI6ImVtYmVkOnJlYWQ6YnJhbmRfb3ZlcnZpZXcifQ.8Z-urwYnmHp41rHOTkJlTjAM_LCDPHfCA-gSlwG5QiU";
+      });
       window.addEventListener(
         "message",
         (event) => {
@@ -47,7 +54,6 @@
             console.warn("拒绝接收来自未授权域名的消息：", event.origin);
             return;
           }
-          alert("父页面收到消息：", event.data.type);
           // 验证通过，处理消息
           console.error("父页面收到消息：", event.data);
 
